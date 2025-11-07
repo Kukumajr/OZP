@@ -1711,16 +1711,38 @@ td {
     font-size: 18px;
     font-weight: 600;
     color: var(--gray-900);
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     display: flex;
     align-items: center;
     gap: 8px;
+}
+
+/* Вкладки для организаций на контроле */
+.child-organizations .tabs-container {
+    background: transparent;
+    border: none;
+    margin-bottom: 16px;
+    padding: 0;
+}
+
+.child-organizations .tabs-nav {
+    padding: 0;
+    border-bottom: 2px solid var(--gray-200);
+}
+
+.child-orgs-tab-content {
+    display: none;
+}
+
+.child-orgs-tab-content.active {
+    display: block;
 }
 
 .child-orgs-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 16px;
+    margin-top: 16px;
 }
 
 .child-org-card {

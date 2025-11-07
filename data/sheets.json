@@ -1346,7 +1346,10 @@
             "commission": "pending"
           }
         }
-      ]
+      ],
+      "uk_id": "uk-1",
+      "uk_name": "УК Горки Сервис",
+      "boiler_id": "obj-3573"
     },
     {
       "id": "sheet-obj-4897",
@@ -1718,7 +1721,10 @@
             "commission": "pending"
           }
         }
-      ]
+      ],
+      "uk_id": "uk-2",
+      "uk_name": "УК Кубинка-8",
+      "boiler_id": "obj-4897"
     },
     {
       "id": "sheet-obj-4899",
@@ -2090,7 +2096,10 @@
             "commission": "pending"
           }
         }
-      ]
+      ],
+      "uk_id": "uk-3",
+      "uk_name": "УК Центральная",
+      "boiler_id": "obj-4899"
     },
     {
       "id": "sheet-obj-5100",
@@ -2462,7 +2471,10 @@
             "commission": "pending"
           }
         }
-      ]
+      ],
+      "uk_id": "uk-4",
+      "uk_name": "УК Барвиха-1",
+      "boiler_id": "obj-5100"
     },
     {
       "id": "sheet-obj-5102",
@@ -3206,7 +3218,10 @@
             "commission": "pending"
           }
         }
-      ]
+      ],
+      "uk_id": "uk-5",
+      "uk_name": "УК Звенигород-Центральная",
+      "boiler_id": "obj-5200"
     },
     {
       "id": "sheet-obj-5203",
@@ -3392,7 +3407,10 @@
             "commission": "pending"
           }
         }
-      ]
+      ],
+      "uk_id": "uk-6",
+      "uk_name": "УК Звенигород-2",
+      "boiler_id": "obj-5201"
     },
     {
       "id": "sheet-obj-5300",
@@ -3764,7 +3782,10 @@
             "commission": "pending"
           }
         }
-      ]
+      ],
+      "uk_id": "uk-7",
+      "uk_name": "УК Голицыно-1",
+      "boiler_id": "obj-5300"
     },
     {
       "id": "sheet-obj-5302",
@@ -4322,7 +4343,10 @@
             "commission": "pending"
           }
         }
-      ]
+      ],
+      "uk_id": "uk-8",
+      "uk_name": "УК Новоивановское",
+      "boiler_id": "obj-5400"
     },
     {
       "id": "sheet-obj-5402",
@@ -4508,7 +4532,10 @@
             "commission": "pending"
           }
         }
-      ]
+      ],
+      "uk_id": "uk-9",
+      "uk_name": "УК ул. Мичурина, д. 18",
+      "boiler_id": "obj-5400"
     },
     {
       "id": "sheet-obj-5500",
@@ -5066,7 +5093,10 @@
             "commission": "pending"
           }
         }
-      ]
+      ],
+      "uk_id": "uk-10",
+      "uk_name": "УК Центральная",
+      "boiler_id": "obj-6001"
     },
     {
       "id": "sheet-obj-6003",
@@ -5252,7 +5282,10 @@
             "commission": "pending"
           }
         }
-      ]
+      ],
+      "uk_id": "uk-11",
+      "uk_name": "УК ул. Панфилова, д. 7",
+      "boiler_id": "obj-6001"
     },
     {
       "id": "sheet-obj-6004",
@@ -5624,7 +5657,10 @@
             "commission": "pending"
           }
         }
-      ]
+      ],
+      "uk_id": "uk-12",
+      "uk_name": "УК Северная",
+      "boiler_id": "obj-6004"
     },
     {
       "id": "sheet-obj-6100",
@@ -5996,7 +6032,10 @@
             "commission": "pending"
           }
         }
-      ]
+      ],
+      "uk_id": "uk-13",
+      "uk_name": "УК Ярополец",
+      "boiler_id": "obj-6100"
     },
     {
       "id": "sheet-obj-6200",
@@ -6554,7 +6593,10 @@
             "commission": "pending"
           }
         }
-      ]
+      ],
+      "uk_id": "uk-14",
+      "uk_name": "УК Осташево",
+      "boiler_id": "obj-6300"
     },
     {
       "id": "sheet-obj-7001",
@@ -7112,7 +7154,10 @@
             "commission": "pending"
           }
         }
-      ]
+      ],
+      "uk_id": "uk-15",
+      "uk_name": "УК Северная",
+      "boiler_id": "obj-7001"
     },
     {
       "id": "sheet-obj-7004",
@@ -7484,7 +7529,10 @@
             "commission": "pending"
           }
         }
-      ]
+      ],
+      "uk_id": "uk-16",
+      "uk_name": "УК Восточная",
+      "boiler_id": "obj-7004"
     },
     {
       "id": "sheet-obj-7100",
@@ -7856,7 +7904,10 @@
             "commission": "pending"
           }
         }
-      ]
+      ],
+      "uk_id": "uk-17",
+      "uk_name": "УК Дедовск-1",
+      "boiler_id": "obj-7100"
     },
     {
       "id": "sheet-obj-7102",
@@ -8414,7 +8465,62 @@
             "commission": "pending"
           }
         }
-      ]
+      ],
+      "uk_id": "uk-18",
+      "uk_name": "УК Снегири",
+      "boiler_id": "obj-7200"
+    },
+    {
+      "id": "net-3576-sheet",
+      "sheet_number": "ОЛ-NET-3576",
+      "entity_type": "object",
+      "object_id": "net-3576",
+      "object_name": "Тепловые сети п. Горки-2 участок №1",
+      "object_type": "network",
+      "period": "2025-2026",
+      "tso_id": "tso-1",
+      "tso_name": "МУП ЖКХ Назарьево",
+      "eto_id": "eto-1",
+      "eto_name": "ЕТО Одинцовский г.о.",
+      "omsu_id": "omsu-1",
+      "omsu_name": "Одинцовское городское округ",
+      "boiler_id": "obj-3573",
+      "boiler_name": "Котельная №1 п. Горки-2",
+      "created_at": "2025-08-25T10:15:22Z",
+      "updated_at": "2025-11-05T14:20:45Z",
+      "progress": 72,
+      "index": 0.89,
+      "docs_total": 35,
+      "docs_approved": 25,
+      "status": "review",
+      "last_activity": "2025-11-05T14:20:45Z",
+      "items": []
+    },
+    {
+      "id": "net-4899-sheet",
+      "sheet_number": "ОЛ-NET-4899",
+      "entity_type": "object",
+      "object_id": "net-4899",
+      "object_name": "Тепловые сети Кубинка-8",
+      "object_type": "network",
+      "period": "2025-2026",
+      "tso_id": "tso-2",
+      "tso_name": "МУП Теплосеть Кубинка",
+      "eto_id": "eto-1",
+      "eto_name": "ЕТО Одинцовский г.о.",
+      "omsu_id": "omsu-1",
+      "omsu_name": "Одинцовское городское округ",
+      "boiler_id": "obj-4897",
+      "boiler_name": "Котельная Кубинка-8",
+      "created_at": "2025-08-20T09:30:11Z",
+      "updated_at": "2025-11-06T11:45:33Z",
+      "progress": 85,
+      "index": 0.92,
+      "docs_total": 38,
+      "docs_approved": 32,
+      "status": "working",
+      "last_activity": "2025-11-06T11:45:33Z",
+      "items": []
     }
   ]
 }
