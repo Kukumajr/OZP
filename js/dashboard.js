@@ -5,8 +5,10 @@ function showDashboard(type, id, name) {
     currentOrgType = type;
     currentOrgId = id;
 
-    // Скрыть детальный вид
+    // Скрыть детальный вид и реестр
     document.getElementById('detailView').classList.remove('active');
+    const registryView = document.getElementById('registryView');
+    if (registryView) registryView.classList.remove('active');
 
     // Показать дашборд
     const dashboard = document.getElementById('dashboardView');
@@ -331,7 +333,7 @@ function renderOrganizationSheet(sheet, type) {
 
                 <div class="organization-actions-card">
                     <h3 style="text-align: center;">Документы организации</h3>
-                    <div class="org-actions-buttons" style="display: flex;flex-direction: row;">
+                    <div class="org-actions-buttons" style="display: flex;flex-direction: row;flex-wrap: wrap;">
                         <button class="btn btn-secondary" disabled style="width: 50%">
                             <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
@@ -343,6 +345,12 @@ function renderOrganizationSheet(sheet, type) {
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                             </svg>
                             Создать паспорт
+                        </button>
+                        <button style="width: 100%; margin-top: 8px;" class="btn btn-primary" onclick="showRegistryDetail('new-${type}-${currentOrgId}')">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
+                            </svg>
+                            Реестр документов
                         </button>
                     </div>
                 </div>
@@ -398,7 +406,7 @@ function renderOrganizationSheet(sheet, type) {
 
                 <div class="organization-actions-card">
                     <h3 style="text-align: center;">Документы организации</h3>
-                    <div class="org-actions-buttons" style="display: flex;flex-direction: row;">
+                    <div class="org-actions-buttons" style="display: flex;flex-direction: row;flex-wrap: wrap;">
                         <button class="btn btn-secondary" onclick="createAct('${sheet.id}')" style="width: 50%">
                             <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
@@ -410,6 +418,12 @@ function renderOrganizationSheet(sheet, type) {
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                             </svg>
                             Создать паспорт
+                        </button>
+                        <button style="width: 100%; margin-top: 8px;" class="btn btn-primary" onclick="showRegistryDetail('${type}', '${currentOrgId}', '${typeNames[type]}')">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
+                            </svg>
+                            Реестр документов
                         </button>
                     </div>
                 </div>

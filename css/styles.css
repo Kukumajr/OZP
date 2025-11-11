@@ -1236,6 +1236,22 @@ td {
     background: var(--gray-50);
 }
 
+.drop-zone.empty-drop-zone {
+    border: 1px dashed var(--gray-300);
+    background: var(--gray-50);
+    padding: 6px 10px;
+}
+
+.drop-zone.empty-drop-zone:hover {
+    border-color: var(--primary);
+    background: var(--primary-light);
+}
+
+.drop-zone.empty-drop-zone .icon-badge {
+    color: var(--gray-500);
+    font-size: 12px;
+}
+
 .drop-zone.drag-over {
     background: var(--primary-light);
     border: 2px dashed var(--primary);
@@ -2159,4 +2175,151 @@ td {
         flex-direction: column;
         align-items: flex-start;
     }
+}
+
+/* ===== PACKS LIST (Document Registry) ===== */
+.packs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.pack-item {
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    background: white;
+    overflow: hidden;
+    transition: all 0.2s;
+}
+
+.pack-item:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.pack-item.expanded {
+    border-color: var(--primary);
+}
+
+.pack-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    cursor: pointer;
+    background: var(--gray-50);
+    transition: all 0.2s;
+}
+
+.pack-header:hover {
+    background: var(--gray-100);
+}
+
+.pack-item.expanded .pack-header {
+    background: var(--primary-light);
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.pack-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.pack-version {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gray-900);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.pack-item.expanded .pack-version {
+    color: var(--primary);
+}
+
+.pack-date {
+    font-size: 12px;
+    color: var(--gray-500);
+}
+
+.pack-toggle {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray-400);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+}
+
+.pack-item.expanded .pack-toggle {
+    transform: rotate(90deg);
+    color: var(--primary);
+}
+
+.pack-content {
+    display: none;
+    padding: 16px;
+    background: white;
+}
+
+.pack-item.expanded .pack-content {
+    display: block;
+}
+
+.pack-files-count {
+    font-size: 13px;
+    color: var(--gray-600);
+    margin-bottom: 12px;
+    font-weight: 500;
+}
+
+.pack-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--gray-100);
+}
+
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 13px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.btn-sm.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-sm.btn-primary:hover {
+    background: var(--primary-dark);
+}
+
+.btn-sm.btn-secondary {
+    background: var(--gray-100);
+    color: var(--gray-700);
+    border: 1px solid var(--gray-300);
+}
+
+.btn-sm.btn-secondary:hover {
+    background: var(--gray-200);
+    border-color: var(--gray-400);
+}
+
+.btn-sm svg {
+    width: 14px;
+    height: 14px;
 }

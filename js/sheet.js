@@ -4,19 +4,30 @@ let currentSheetData = null;
 let currentScrollToItem = null;
 
 function showSheetDetail(sheetId, itemNumber = null) {
+    console.log('showSheetDetail called with:', sheetId);
     currentView = 'detail';
     currentScrollToItem = itemNumber;
 
     // Найти sheet в данных
     currentSheetData = sheetsData.find(s => s.id === sheetId);
+    console.log('Found sheet:', currentSheetData);
 
     if (!currentSheetData) {
         console.error('Sheet not found:', sheetId);
         return;
     }
 
-    // Скрыть дашборд
+    // Если у sheet нет items, создать их
+    if (!currentSheetData.items) {
+        console.log('Generating items for sheet');
+        currentSheetData.items = generateSheetItems(currentSheetData);
+        console.log('Generated items:', currentSheetData.items.length);
+    }
+
+    // Скрыть дашборд и реестр
     document.getElementById('dashboardView').classList.remove('active');
+    const registryView = document.getElementById('registryView');
+    if (registryView) registryView.classList.remove('active');
 
     // Показать детальный вид
     const detailView = document.getElementById('detailView');
@@ -57,26 +68,22 @@ function updateDetailHeader() {
 
 function renderDetailMeta() {
     // Обновить метаданные в header
-    document.querySelector('[data-meta="sheet-id"] .detail-meta-value').textContent = `ОЛ-${currentSheetData.id}`;
-    document.querySelector('[data-meta="created"] .detail-meta-value').textContent = new Date(currentSheetData.created_at).toLocaleDateString('ru-RU');
-    document.querySelector('[data-meta="index"] .detail-meta-value').textContent = currentSheetData.index;
-    document.querySelector('[data-meta="docs"] .detail-meta-value').textContent = `${currentSheetData.docs_approved} из ${currentSheetData.docs_total}`;
+    document.querySelector('#detailView [data-meta="sheet-id"] .detail-meta-value').textContent = `ОЛ-${currentSheetData.id}`;
+    document.querySelector('#detailView [data-meta="created"] .detail-meta-value').textContent = new Date(currentSheetData.created_at).toLocaleDateString('ru-RU');
+    document.querySelector('#detailView [data-meta="index"] .detail-meta-value').textContent = currentSheetData.index;
+    document.querySelector('#detailView [data-meta="docs"] .detail-meta-value').textContent = `${currentSheetData.docs_approved} из ${currentSheetData.docs_total}`;
 
     // Progress bar
-    document.querySelector('.progress-label-value').textContent = currentSheetData.progress + '%';
-    document.querySelector('.progress-fill').style.width = currentSheetData.progress + '%';
+    document.querySelector('#detailView .progress-label-value').textContent = currentSheetData.progress + '%';
+    document.querySelector('#detailView .progress-fill').style.width = currentSheetData.progress + '%';
 }
 
 function renderItemsTable() {
-    const tbody = document.querySelector('.tree-table tbody');
-
-    console.log('renderItemsTable called');
-    console.log('tbody exists:', !!tbody);
-    console.log('currentSheetData:', currentSheetData);
-    console.log('currentSheetData.items:', currentSheetData?.items);
+    const tbody = document.querySelector('#detailView .tree-table tbody');
+    console.log('renderItemsTable - tbody found:', !!tbody);
 
     if (!tbody) {
-        console.error('tbody not found!');
+        console.error('tbody not found in #detailView!');
         return;
     }
 
@@ -93,7 +100,6 @@ function renderItemsTable() {
     });
 
     tbody.innerHTML = html;
-    console.log('Rendered', currentSheetData.items.length, 'items');
 
     // Обновить счетчики фильтров
     updateFilterCounts();
@@ -474,6 +480,26 @@ function openUploadModal(itemId, itemNumber, files = null) {
     const modalTitle = modal.querySelector('.modal-header h3');
     modalTitle.textContent = `Загрузка файлов к пункту ${itemNumber}`;
 
+    const modalBody = modal.querySelector('.modal-body');
+
+    // Добавить кнопку "Добавить из реестра" после upload-area
+    const uploadArea = modalBody.querySelector('.upload-area');
+    let registryButton = modalBody.querySelector('.btn-add-from-registry');
+
+    if (!registryButton) {
+        registryButton = document.createElement('button');
+        registryButton.className = 'btn btn-secondary btn-add-from-registry';
+        registryButton.style.cssText = 'width: 100%; margin-top: 16px; margin-bottom: 16px;';
+        registryButton.innerHTML = `
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right: 8px;">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            Добавить из реестра документов
+        `;
+        registryButton.onclick = () => openRegistryFileSelector();
+        uploadArea.parentNode.insertBefore(registryButton, uploadArea.nextSibling);
+    }
+
     // Очистить предпросмотр
     document.getElementById('filesPreview').innerHTML = '';
     document.getElementById('uploadButton').disabled = true;
@@ -687,3 +713,342 @@ function updateItemFilesCount(itemId, newFilesCount) {
 }
 
 // ===== HELPER FUNCTIONS =====
+
+// Генерация пунктов оценочного листа
+function generateSheetItems(sheetData) {
+    // Базовый список пунктов для всех объектов
+    return [
+        {
+            id: 'item-1',
+            number: '1',
+            title: 'Организационно-правовая документация',
+            level: 0,
+            has_children: true,
+            files_count: 0,
+            files: [],
+            status: { tso: 'pending', eto: 'pending', omsu: 'pending', commission: 'pending' },
+            score: null,
+            comments_count: 0,
+            comments: []
+        },
+        {
+            id: 'item-1.1',
+            number: '1.1',
+            title: 'Устав организации',
+            level: 1,
+            has_children: false,
+            files_count: Math.floor(Math.random() * 3),
+            files: [],
+            status: { tso: 'completed', eto: 'completed', omsu: 'active', commission: 'pending' },
+            score: Math.random() > 0.5 ? Math.floor(Math.random() * 10) + 1 : null,
+            comments_count: Math.floor(Math.random() * 3),
+            comments: []
+        },
+        {
+            id: 'item-1.2',
+            number: '1.2',
+            title: 'Лицензии и разрешительная документация',
+            level: 1,
+            has_children: false,
+            files_count: Math.floor(Math.random() * 5),
+            files: [],
+            status: { tso: 'completed', eto: 'completed', omsu: 'pending', commission: 'pending' },
+            score: Math.random() > 0.5 ? Math.floor(Math.random() * 10) + 1 : null,
+            comments_count: Math.floor(Math.random() * 2),
+            comments: []
+        },
+        {
+            id: 'item-1.3',
+            number: '1.3',
+            title: 'Свидетельство о регистрации',
+            level: 1,
+            has_children: false,
+            files_count: Math.floor(Math.random() * 2),
+            files: [],
+            status: { tso: 'completed', eto: 'active', omsu: 'pending', commission: 'pending' },
+            score: Math.random() > 0.5 ? Math.floor(Math.random() * 10) + 1 : null,
+            comments_count: 0,
+            comments: []
+        },
+        {
+            id: 'item-2',
+            number: '2',
+            title: 'Техническая документация',
+            level: 0,
+            has_children: true,
+            files_count: 0,
+            files: [],
+            status: { tso: 'pending', eto: 'pending', omsu: 'pending', commission: 'pending' },
+            score: null,
+            comments_count: 0,
+            comments: []
+        },
+        {
+            id: 'item-2.1',
+            number: '2.1',
+            title: 'Технический паспорт объекта',
+            level: 1,
+            has_children: false,
+            files_count: Math.floor(Math.random() * 4),
+            files: [],
+            status: { tso: 'completed', eto: 'completed', omsu: 'completed', commission: 'active' },
+            score: Math.random() > 0.3 ? Math.floor(Math.random() * 10) + 1 : null,
+            comments_count: Math.floor(Math.random() * 5),
+            comments: []
+        },
+        {
+            id: 'item-2.2',
+            number: '2.2',
+            title: 'Схемы теплоснабжения',
+            level: 1,
+            has_children: false,
+            files_count: Math.floor(Math.random() * 3),
+            files: [],
+            status: { tso: 'completed', eto: 'rejected', omsu: 'pending', commission: 'pending' },
+            score: null,
+            comments_count: Math.floor(Math.random() * 4),
+            comments: []
+        },
+        {
+            id: 'item-2.3',
+            number: '2.3',
+            title: 'Акты гидравлических испытаний',
+            level: 1,
+            has_children: false,
+            files_count: Math.floor(Math.random() * 2),
+            files: [],
+            status: { tso: 'active', eto: 'pending', omsu: 'pending', commission: 'pending' },
+            score: null,
+            comments_count: 0,
+            comments: []
+        },
+        {
+            id: 'item-3',
+            number: '3',
+            title: 'Договоры и соглашения',
+            level: 0,
+            has_children: true,
+            files_count: 0,
+            files: [],
+            status: { tso: 'pending', eto: 'pending', omsu: 'pending', commission: 'pending' },
+            score: null,
+            comments_count: 0,
+            comments: []
+        },
+        {
+            id: 'item-3.1',
+            number: '3.1',
+            title: 'Договоры с поставщиками энергоресурсов',
+            level: 1,
+            has_children: false,
+            files_count: Math.floor(Math.random() * 6),
+            files: [],
+            status: { tso: 'completed', eto: 'completed', omsu: 'completed', commission: 'completed' },
+            score: Math.random() > 0.2 ? Math.floor(Math.random() * 10) + 1 : null,
+            comments_count: Math.floor(Math.random() * 2),
+            comments: []
+        },
+        {
+            id: 'item-3.2',
+            number: '3.2',
+            title: 'Договоры с потребителями',
+            level: 1,
+            has_children: false,
+            files_count: Math.floor(Math.random() * 10),
+            files: [],
+            status: { tso: 'completed', eto: 'completed', omsu: 'active', commission: 'pending' },
+            score: Math.random() > 0.3 ? Math.floor(Math.random() * 10) + 1 : null,
+            comments_count: Math.floor(Math.random() * 3),
+            comments: []
+        },
+        {
+            id: 'item-4',
+            number: '4',
+            title: 'Отчетность',
+            level: 0,
+            has_children: true,
+            files_count: 0,
+            files: [],
+            status: { tso: 'pending', eto: 'pending', omsu: 'pending', commission: 'pending' },
+            score: null,
+            comments_count: 0,
+            comments: []
+        },
+        {
+            id: 'item-4.1',
+            number: '4.1',
+            title: 'Годовая отчетность',
+            level: 1,
+            has_children: false,
+            files_count: Math.floor(Math.random() * 5),
+            files: [],
+            status: { tso: 'completed', eto: 'completed', omsu: 'completed', commission: 'completed' },
+            score: Math.random() > 0.2 ? Math.floor(Math.random() * 10) + 1 : null,
+            comments_count: Math.floor(Math.random() * 2),
+            comments: []
+        },
+        {
+            id: 'item-4.2',
+            number: '4.2',
+            title: 'Квартальная отчетность',
+            level: 1,
+            has_children: false,
+            files_count: Math.floor(Math.random() * 8),
+            files: [],
+            status: { tso: 'completed', eto: 'active', omsu: 'pending', commission: 'pending' },
+            score: Math.random() > 0.4 ? Math.floor(Math.random() * 10) + 1 : null,
+            comments_count: Math.floor(Math.random() * 4),
+            comments: []
+        }
+    ];
+}
+
+// ===== REGISTRY FILE SELECTOR =====
+function openRegistryFileSelector() {
+    // Создать модальное окно для выбора файлов из реестра
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay active';
+    modal.id = 'registryFileSelectorModal';
+    modal.innerHTML = `
+        <div class="modal" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3>Выбрать документы из реестра</h3>
+                <button class="modal-close" onclick="closeRegistryFileSelector()">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body" style="max-height: 60vh; overflow-y: auto;">
+                ${renderRegistryFilesList()}
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeRegistryFileSelector()">Отмена</button>
+                <button class="btn btn-primary" onclick="addSelectedRegistryFiles()">Добавить выбранные</button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+}
+
+function closeRegistryFileSelector() {
+    const modal = document.getElementById('registryFileSelectorModal');
+    if (modal) {
+        modal.remove();
+    }
+}
+
+function renderRegistryFilesList() {
+    // Получить данные реестра из registry.js (если они есть)
+    // Для визуала создадим несколько тестовых документов из реестра
+
+    const registryDocs = [
+        {
+            id: 'reg-doc-1',
+            number: '1',
+            title: 'Устав организации',
+            packs: [
+                {
+                    version: 2,
+                    files: [
+                        { name: 'Устав_новая_редакция.pdf', size: 2589456 },
+                        { name: 'Приложение_1.docx', size: 456123 },
+                        { name: 'Изменения.pdf', size: 234567 }
+                    ]
+                }
+            ]
+        },
+        {
+            id: 'reg-doc-2',
+            number: '2.1',
+            title: 'Лицензия на осуществление деятельности',
+            packs: [
+                {
+                    version: 1,
+                    files: [
+                        { name: 'Лицензия.pdf', size: 1234567 }
+                    ]
+                }
+            ]
+        }
+    ];
+
+    let html = '<div style="margin-bottom: 16px; color: var(--gray-600); font-size: 14px;">Выберите файлы из последних версий паков реестра:</div>';
+
+    registryDocs.forEach(doc => {
+        if (doc.packs && doc.packs.length > 0) {
+            const latestPack = doc.packs[doc.packs.length - 1];
+
+            html += `
+                <div style="margin-bottom: 20px; padding: 16px; border: 1px solid var(--gray-200); border-radius: 8px; background: var(--gray-50);">
+                    <div style="font-weight: 600; margin-bottom: 12px; color: var(--gray-900);">
+                        ${doc.number}. ${doc.title}
+                        <span style="color: var(--gray-500); font-weight: 400; font-size: 13px;"> — Пак v${latestPack.version} (актуальный)</span>
+                    </div>
+                    <div class="files-list" style="display: flex; flex-direction: column; gap: 8px;">
+            `;
+
+            latestPack.files.forEach((file, fileIndex) => {
+                const fileId = `${doc.id}-${fileIndex}`;
+                html += `
+                    <label style="display: flex; align-items: center; gap: 12px; padding: 8px; background: white; border: 1px solid var(--gray-200); border-radius: 6px; cursor: pointer; transition: all 0.2s;"
+                           onmouseover="this.style.background='var(--primary-light)'; this.style.borderColor='var(--primary)';"
+                           onmouseout="this.style.background='white'; this.style.borderColor='var(--gray-200)';">
+                        <input type="checkbox"
+                               class="registry-file-checkbox"
+                               data-filename="${file.name}"
+                               data-filesize="${file.size}"
+                               style="width: 18px; height: 18px; cursor: pointer;">
+                        <div style="flex: 1;">
+                            <div style="font-weight: 500; color: var(--gray-900); font-size: 14px;">${file.name}</div>
+                            <div style="font-size: 12px; color: var(--gray-500);">${formatFileSize(file.size)}</div>
+                        </div>
+                        <div style="color: var(--gray-400);">📄</div>
+                    </label>
+                `;
+            });
+
+            html += `
+                    </div>
+                </div>
+            `;
+        }
+    });
+
+    return html;
+}
+
+function addSelectedRegistryFiles() {
+    // Получить все выбранные чекбоксы
+    const checkboxes = document.querySelectorAll('.registry-file-checkbox:checked');
+
+    if (checkboxes.length === 0) {
+        alert('Выберите хотя бы один файл');
+        return;
+    }
+
+    // Создать псевдо-файлы из выбранных документов
+    checkboxes.forEach(checkbox => {
+        const fileName = checkbox.dataset.filename;
+        const fileSize = parseInt(checkbox.dataset.filesize);
+
+        // Создать объект, имитирующий File
+        const pseudoFile = {
+            name: fileName,
+            size: fileSize,
+            type: 'application/pdf',
+            lastModified: Date.now()
+        };
+
+        // Добавить в список выбранных файлов
+        selectedFiles.push(pseudoFile);
+    });
+
+    // Закрыть модальное окно выбора из реестра
+    closeRegistryFileSelector();
+
+    // Обновить предпросмотр файлов
+    renderFilesPreview();
+    updateUploadButton();
+}
